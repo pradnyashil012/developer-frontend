@@ -7,13 +7,11 @@ import JobsPage from "./components/JobsPage";
 import Footer from "./components/homepage/Components/Footer.jsx";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
-import { Box, createTheme, makeStyles, ThemeProvider } from "@material-ui/core";
 import LandingPage from "./components/homepage/landingPage.jsx";
-
+import Dashboard from "./components/dashboard/Dashboard";
 import JobForm from "./components/jobPost/jobForm";
 import { ToastContainer } from "react-toastify";
 import Resume from "./components/userResume/rsume";
-import { responsiveFontSizes } from "@mui/material/styles/";
 import BusReg from "./components/BusnessRegestration";
 import LoginSignup from "./components/LoginSignup";
 import BussinessProfile from "./components/BusinessProfile";
@@ -36,51 +34,7 @@ import AuthDevLogout from "./components/auth/Logout";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 
-const useStyles = makeStyles((theme) => ({
-  contentBody: {
-    height: "auto",
-    margin: 0,
-    padding: 0,
-    minHeight: "90vh",
-  },
-  body: {
-    overflow: "hidden",
-  },
-  link: {
-    textDecoration: "none",
-  },
-}));
-let theme = createTheme({
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      tab: 770,
-      md: 900,
-      lg: 1200,
-      xl: 1536,
-    },
-  },
-  palette: {
-    primary: {
-      main: "#003979",
-      home: "#02142A",
-    },
-    secondary: {
-      main: "#D3DCEE",
-    },
-    text: {
-      main: "#003979",
-      white: "#fff",
-    },
-  },
-  link: {},
-});
-
-theme = responsiveFontSizes(theme);
-
 const App = () => {
-  const classes = useStyles();
 
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const navigate = useNavigate();
@@ -120,11 +74,11 @@ const App = () => {
 
   return (
     <>
-      <div className={classes.body}>
+      <div className="bg-white">
         <ToastContainer />
-        <ThemeProvider theme={theme}>
+        {/* <ThemeProvider theme={theme}> */}
           <Header />
-          <Box className={classes.contentBody}>
+          <div>
             <Routes>
               <Route path="/" element={<LandingPage />}></Route>
               <Route
@@ -146,6 +100,7 @@ const App = () => {
                 }
               ></Route>
               <Route path="/dev-signup" element={<SignUp />}></Route>
+              <Route path="/dashboard" element={<Dashboard />}></Route>
               <Route path="/company-signup" element={<BusReg />}></Route>
               <Route path="/jobs" element={<JobsPage />}></Route>
               <Route path="/internships" element={<InternshipPage />}></Route>
@@ -187,9 +142,9 @@ const App = () => {
               ></Route>
               <Route path="/profile" element={<Profile />}></Route>
             </Routes>
-          </Box>
+          </div>
           <Footer />
-        </ThemeProvider>
+        {/* </ThemeProvider> */}
       </div>
     </>
   );

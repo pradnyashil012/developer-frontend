@@ -1,82 +1,13 @@
 import React, { useState, useEffect } from "react";
-import ForgotPassword from "./ForgotPassword";
+// import ForgotPassword from "./ForgotPassword";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-//Importing material UI Components
-import { Box, createTheme, makeStyles, ThemeProvider } from "@material-ui/core";
-
-import {
-  Typography,
-  TextField,
-  OutlinedInput,
-  Button,
-  InputAdornment,
-  FormControlLabel,
-  Checkbox,
-  IconButton,
-  Container,
-  Select,
-  InputLabel,
-  MenuItem,
-  Grid,
-  FormControl,
-} from "@material-ui/core";
-
-import { Visibility, VisibilityOff } from "@material-ui/icons";
-import CircularProgress from "@mui/material/CircularProgress";
-
-
-//Adding Styles
-const useStyles = makeStyles((theme) => ({
-  formContainer: {
-    padding: "20px",
-    margin: "0 auto",
-    backgroundColor: "white",
-    borderRadius: "5px",
-    boxShadow: "0 0 10px silver",
-    maxWidth: "600px",
-  },
-  heading: {
-    margin: "20px 10%",
-    color: theme.palette.primary.main,
-    fontWeight: "bolder",
-    textAlign: "center",
-  },
-  label: {
-    backgroundColor: "white",
-    padding: "2px 5px",
-    marginTop: "-5px",
-  },
-  inputContainer: {
-    margin: "30px 0",
-  },
-  Button: {
-    "&:hover": {
-      backgroundColor: theme.palette.primary.main,
-      color: "white",
-    },
-  },
-  buttonBox: {
-    textAlign: "center",
-    paddingTop: "20px",
-  },
-  body: {
-    marginTop: "100px",
-    height: "80vh",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-}));
-
-
+import {AiOutlineUser} from 'react-icons/ai'
+import {MdLockOutline} from 'react-icons/md'
+import { Oval } from "react-loader-spinner";
 
 const Login = ({ setCookie }) => {
   const navigate = useNavigate();
-
-  //Defining Classes
-  const classes = useStyles();
 
   var url_string = window.location.href;
   var url = new URL(url_string);
@@ -161,7 +92,8 @@ const Login = ({ setCookie }) => {
             return;
           }
 
-          navigate("/jobs");
+          // navigate("/jobs");
+          navigate("/dashboard");
         }
 
         //console.log(data);
@@ -192,115 +124,50 @@ const Login = ({ setCookie }) => {
 
   return (
     <>
-    
-    {/* NEW code */}
+    <div className="mt-16  bg-white">
+     
+      <div className='w-full flex flex-col md:flex-row items-center justify-center flex-1 text-center '>
+        <div className='w-full md:w-3/5 p-5'>  {/* Login Section */}
+        {/* <img src={logo} alt='logo' className='h-10' /> */}
+        <div className='py-10'>
+            <h2 className='text-3xl font-bold text-[#003979] mb-8'>Sign in to account</h2>
+            <div className='border-4 w-10 border-[#003979] inline-block mb-2' />
+
+            {/* Input Divs below */}
+            <div className='flex flex-col items-center '>
+                <div className='bg-gray-100 w-64 p-2 flex items-center mb-3'>
+                    <AiOutlineUser className='text-gray-400 m-2' />
+                    <input type='email' name='email' value={email} onChange={(e) => { setEmail(e.target.value);}}  placeholder="Username" className='bg-gray-100 outline-none text-sm flex-1' />
+                    {/* using flex-1 above to expand full width */}
+                </div>
+                <div className='bg-gray-100 w-64 p-2 flex items-center mb-3'>
+                    <MdLockOutline className='text-gray-400 m-2' />
+                    <input type='password' name='password' value={password} onChange={handlePassChange} placeholder="Password" className='bg-gray-100 outline-none text-sm flex-1' />
+                    {/* using flex-1 above to expand full width */}
+                </div>
+                <div className='flex justify-between w-64 mb-5'>
+                    {/* <label className='flex items-center text-sm'><input type='checkbox' name='remember' className='mr-1'/>Remember me</label> */}
+                    <div onClick={() => { navigate("/resetPassWord");}} className='text-xs hover:cursor-pointer'>Forgot Password?</div>
+                </div>
+                {loading? <Oval color="#003979" height={50} width={50} />
+                :
+                <button  onClick={handleSubmit} className='border-2 border-[#003979] text-[#003979] font-semibold rounded-full px-12 py-2 inline-block hover:bg-[#003979] hover:text-white hover:cursor-pointer'>LogIn</button>
+                }
+            </div>
 
 
-    <div>
-      {/* <Header /> */}
-    <div className={classes.body}>
-      <Container>
-        <div className={classes.heading}>
-          <Typography variant="h4">
-            <Box
-              sx={{
-                fontWeight: "bold",
-              }}
-            >
-              {"Developer Login"}
-            </Box>
-          </Typography>{" "}
         </div>
-        <Box component="form" className={classes.formContainer}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel
-                  className={classes.label}
-                  htmlFor="outlined-adornment-name"
-                >
-                  {"Username"}                   {/* //Asking user for Email */}
-                </InputLabel>
-                <OutlinedInput
-                  id="outlined-adornment-name"
-                  type="text"
-                  value={email}
-                  // onChange={handleEmailChange}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                  name="comp"
-                  label="Company Name"
-                />
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={12}>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel
-                  className={classes.label}
-                  htmlFor="outlined-adornment-name"
-                >
-                  Password
-                </InputLabel>
-                <OutlinedInput
-                  variant="outlined"
-                  placeholder="Enter Password"
-                  name="password"
-                  fullWidth
-                  type={values.showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={handlePassChange}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {values.showPassword ? (
-                          <VisibilityOff />
-                        ) : (
-                          <Visibility />
-                        )}
-                      </IconButton>{" "}
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-            </Grid>
-          </Grid>
-
-          <Box className={classes.buttonBox}>
-            {loading ? (
-              <CircularProgress />
-            ) : (
-              <Button
-                onClick={handleSubmit}
-                variant="outlined"
-                color="primary"
-                className={classes.Button}
-              >
-                Login{" "}                                                    {/* // The Login Button */}
-              </Button>
-            )}
-          </Box>
-          <Box className={classes.buttonBox}>
-            <Button
-              // onClick={handleForgotPassword}
-              onClick={() => {
-                navigate("/resetPassWord");
-              }}
-              variant="outlined"
-              color="primary"
-              className={classes.Button}
-            >
-              Forgot Password ?{" "}                                            {/* // The Forgot Password Button */}
-            </Button>
-          </Box>
-        </Box>
-      </Container>
+        </div>
+        <div className='w-full md:w-2/5 md:h-[492px] bg-[#003979] text-white px-12 py-36'>  {/* signup Section */}
+            <h2 className='text-3xl text-white font-bold mb-2'>Hello, company!</h2>
+            <div className='border-4 w-10 border-white inline-block mb-2' />
+            <div className='90%'>
+              <p className='text-xl mb-3'>Post jobs and internships for your company</p>
+              <p className='text-xl mb-6'>Hire our trained and skilled WEB3 developers</p>
+              <p className='mb-10'>Fill up company info and start journey with us!</p>
+            </div>
+            <a href='/dev-signup' className='border-2 border-white font-semibold rounded-full px-12 py-2 inline-block hover:bg-white hover:text-[#003979]'>SignUp</a>
+        </div>
     </div>
     </div>
     </>
